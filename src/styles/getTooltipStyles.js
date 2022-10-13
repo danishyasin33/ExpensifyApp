@@ -29,7 +29,7 @@ const POINTER_WIDTH = 12;
  *                                         and a negative value shifts it to the left.
  * @returns {Number}
  */
-function computeHorizontalShift(windowWidth, xOffset, componentWidth, tooltipWidth, manualShiftHorizontal) {
+function computeHorizontalShift (windowWidth, xOffset, componentWidth, tooltipWidth, manualShiftHorizontal) {
     // First find the left and right edges of the tooltip (by default, it is centered on the component).
     const componentCenter = xOffset + (componentWidth / 2) + manualShiftHorizontal;
     const tooltipLeftEdge = componentCenter - (tooltipWidth / 2);
@@ -69,9 +69,10 @@ function computeHorizontalShift(windowWidth, xOffset, componentWidth, tooltipWid
  *                                         and a negative value shifts it to the left.
  * @param {Number} [manualShiftVertical] - Any additional amount to manually shift the tooltip up or down.
  *                                       A positive value shifts it down, and a negative value shifts it up.
+ * @param {String} [tooltipType] - Defines the type of tool tip
  * @returns {Object}
  */
-export default function getTooltipStyles(
+export default function getTooltipStyles (
     currentSize,
     windowWidth,
     xOffset,
@@ -84,6 +85,7 @@ export default function getTooltipStyles(
     tooltipTextWidth,
     manualShiftHorizontal = 0,
     manualShiftVertical = 0,
+    tooltipType,
 ) {
     // Determine if the tooltip should display below the wrapped component.
     // If a tooltip will try to render within GUTTER_WIDTH logical pixels of the top of the screen,
@@ -103,6 +105,10 @@ export default function getTooltipStyles(
     const wrapperWidth = tooltipTextWidth && tooltipTextWidth < maxWidth
         ? tooltipTextWidth + (spacing.ph2.paddingHorizontal * 2) + 1
         : maxWidth;
+
+
+    // We get the tooltip WhiteSpace style by determining which type of tooltip it is.
+    const tooltipWhiteSpace = tooltipType == 'commentLink' ? 'break-spaces' : 'nowrap'
 
     return {
         animationStyle: {
@@ -158,7 +164,8 @@ export default function getTooltipStyles(
             fontSize: tooltipFontSize,
             overflowWrap: 'normal',
             overflow: 'hidden',
-            whiteSpace: 'nowrap',
+            whiteSpace: tooltipWhiteSpace,
+            left: '1px',
         },
         pointerWrapperStyle: {
             position: 'fixed',

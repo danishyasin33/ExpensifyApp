@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import lodashGet from 'lodash/get';
 import Str from 'expensify-common/lib/str';
 import Text from '../Text';
@@ -10,8 +10,8 @@ import * as ContextMenuActions from '../../pages/home/report/ContextMenu/Context
 import Tooltip from '../Tooltip';
 import canUseTouchScreen from '../../libs/canUseTouchscreen';
 import styles from '../../styles/styles';
-import withWindowDimensions, {windowDimensionsPropTypes} from '../withWindowDimensions';
-import {propTypes as anchorForCommentsOnlyPropTypes, defaultProps} from './anchorForCommentsOnlyPropTypes';
+import withWindowDimensions, { windowDimensionsPropTypes } from '../withWindowDimensions';
+import { propTypes as anchorForCommentsOnlyPropTypes, defaultProps } from './anchorForCommentsOnlyPropTypes';
 
 const propTypes = {
     ...anchorForCommentsOnlyPropTypes,
@@ -46,7 +46,7 @@ const BaseAnchorForCommentsOnly = (props) => {
                 }
             }
         >
-            <Tooltip text={Str.isValidEmail(props.displayName) ? '' : props.href}>
+            <Tooltip tooltipType="commentLink" text={Str.isValidEmail(props.displayName) ? '' : props.href}>
                 <Text
                     ref={el => linkRef = el}
                     style={StyleSheet.flatten([props.style, defaultTextStyle])}

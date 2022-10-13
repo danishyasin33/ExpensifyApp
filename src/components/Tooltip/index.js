@@ -1,15 +1,15 @@
 import _ from 'underscore';
-import React, {PureComponent} from 'react';
-import {Animated, View} from 'react-native';
+import React, { PureComponent } from 'react';
+import { Animated, View } from 'react-native';
 import TooltipRenderedOnPageBody from './TooltipRenderedOnPageBody';
 import Hoverable from '../Hoverable';
 import withWindowDimensions from '../withWindowDimensions';
-import {propTypes, defaultProps} from './tooltipPropTypes';
+import { propTypes, defaultProps } from './tooltipPropTypes';
 import TooltipSense from './TooltipSense';
 import makeCancellablePromise from '../../libs/MakeCancellablePromise';
 
 class Tooltip extends PureComponent {
-    constructor(props) {
+    constructor (props) {
         super(props);
 
         this.state = {
@@ -37,17 +37,17 @@ class Tooltip extends PureComponent {
         this.hideTooltip = this.hideTooltip.bind(this);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate (prevProps) {
         if (this.props.windowWidth === prevProps.windowWidth && this.props.windowHeight === prevProps.windowHeight) {
             return;
         }
 
         this.getWrapperPositionPromise = makeCancellablePromise(this.getWrapperPosition());
         this.getWrapperPositionPromise.promise
-            .then(({x, y}) => this.setState({xOffset: x, yOffset: y}));
+            .then(({ x, y }) => this.setState({ xOffset: x, yOffset: y }));
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
         if (!this.getWrapperPositionPromise) {
             return;
         }
@@ -60,7 +60,7 @@ class Tooltip extends PureComponent {
      *
      * @returns {Promise}
      */
-    getWrapperPosition() {
+    getWrapperPosition () {
         return new Promise(((resolve) => {
             // Make sure the wrapper is mounted before attempting to measure it.
             if (this.wrapperView) {
@@ -78,9 +78,9 @@ class Tooltip extends PureComponent {
     /**
      * Display the tooltip in an animation.
      */
-    showTooltip() {
+    showTooltip () {
         if (!this.state.isRendered) {
-            this.setState({isRendered: true});
+            this.setState({ isRendered: true });
         }
         this.animation.stopAnimation();
         this.shouldStartShowAnimation = true;
@@ -122,7 +122,7 @@ class Tooltip extends PureComponent {
     /**
      * Hide the tooltip in an animation.
      */
-    hideTooltip() {
+    hideTooltip () {
         this.animation.stopAnimation();
         this.shouldStartShowAnimation = false;
         if (TooltipSense.isActive() && !this.isTooltipSenseInitiator) {
@@ -139,7 +139,7 @@ class Tooltip extends PureComponent {
         TooltipSense.deactivate();
     }
 
-    render() {
+    render () {
         // Skip the tooltip and return the children, if the text is empty.
         if (_.isEmpty(this.props.text)) {
             return this.props.children;
@@ -160,7 +160,7 @@ class Tooltip extends PureComponent {
                     this.wrapperView = el;
 
                     // Call the original ref, if any
-                    const {ref} = this.props.children;
+                    const { ref } = this.props.children;
                     if (typeof ref === 'function') {
                         ref(el);
                     }
@@ -182,6 +182,7 @@ class Tooltip extends PureComponent {
                         text={this.props.text}
                         maxWidth={this.props.maxWidth}
                         numberOfLines={this.props.numberOfLines}
+                        tooltipType={this.props.tooltipType}
                     />
                 )}
                 <Hoverable

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Animated, View} from 'react-native';
+import { Animated, View } from 'react-native';
 import ReactDOM from 'react-dom';
 import getTooltipStyles from '../../styles/getTooltipStyles';
 import Text from '../Text';
@@ -41,11 +41,15 @@ const propTypes = {
 
     /** Maximum number of lines to show in tooltip */
     numberOfLines: PropTypes.number.isRequired,
+
+    /** Type of Tool tip; used for recongizing special styling for links in comments */
+    tooltipType: PropTypes.string,
 };
 
 const defaultProps = {
     shiftHorizontal: 0,
     shiftVertical: 0,
+    tooltipType: '',
 };
 
 // Props will change frequently.
@@ -54,7 +58,7 @@ const defaultProps = {
 // There will be n number of tooltip components in the page.
 // It's good to memorize this one.
 class TooltipRenderedOnPageBody extends React.PureComponent {
-    constructor(props) {
+    constructor (props) {
         super(props);
         this.state = {
             // The width of tooltip's inner text
@@ -69,18 +73,18 @@ class TooltipRenderedOnPageBody extends React.PureComponent {
         this.updateTooltipTextWidth = this.updateTooltipTextWidth.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount () {
         this.updateTooltipTextWidth();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate (prevProps) {
         if (prevProps.text === this.props.text) {
             return;
         }
         this.updateTooltipTextWidth();
     }
 
-    updateTooltipTextWidth() {
+    updateTooltipTextWidth () {
         this.setState({
             tooltipTextWidth: this.textRef.offsetWidth,
         });
@@ -91,14 +95,14 @@ class TooltipRenderedOnPageBody extends React.PureComponent {
      *
      * @param {Object} nativeEvent
      */
-    measureTooltip({nativeEvent}) {
+    measureTooltip ({ nativeEvent }) {
         this.setState({
             tooltipWidth: nativeEvent.layout.width,
             tooltipHeight: nativeEvent.layout.height,
         });
     }
 
-    render() {
+    render () {
         const {
             animationStyle,
             tooltipWrapperStyle,
@@ -118,6 +122,7 @@ class TooltipRenderedOnPageBody extends React.PureComponent {
             this.state.tooltipTextWidth,
             this.props.shiftHorizontal,
             this.props.shiftVertical,
+            this.props.tooltipType
         );
         return ReactDOM.createPortal(
             <Animated.View
