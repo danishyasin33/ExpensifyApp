@@ -106,9 +106,9 @@ export default function getTooltipStyles (
         ? tooltipTextWidth + (spacing.ph2.paddingHorizontal * 2) + 1
         : maxWidth;
 
-
     // We get the tooltip WhiteSpace style by determining which type of tooltip it is.
-    const tooltipWhiteSpace = tooltipType == 'commentLink' ? 'break-spaces' : 'nowrap'
+    const tooltipWhiteSpace = componentWidth && componentWidth < maxWidth ? 'nowrap' : 'normal'
+    const tooltipWrap = componentWidth && componentWidth < maxWidth ? 'normal' : 'break-word'
 
     return {
         animationStyle: {
@@ -162,8 +162,7 @@ export default function getTooltipStyles (
             color: themeColors.textReversed,
             fontFamily: fontFamily.GTA,
             fontSize: tooltipFontSize,
-            overflowWrap: 'normal',
-            overflow: 'hidden',
+            overflowWrap: tooltipWrap,
             whiteSpace: tooltipWhiteSpace,
             left: '1px',
         },
